@@ -21,7 +21,7 @@ enum class PouchCategory {
 };
 
 enum class PouchTab {
-    Armor, Bow, Shield, Weapon, Material, Food, SpecialParts, KeyItem, System, PouchTabMax
+    Armor, Bow, Shield, Weapon, Material, Food, SpecialParts, KeyItem, System
 };
 
 enum class ModifierType {
@@ -33,8 +33,8 @@ public:
     // skeleton to access members
     u8 _00[0x18c];
     PouchTab mCurrentTab;
-    s32 mActiveIndices[PouchTabMax];
-    s32 mActiveRowIndices[PouchTabMax];
+    s32 mActiveIndices[9];
+    s32 mActiveRowIndices[9];
 };    
 
 using AddToPouchFunction = bool (PouchMgr* self, const char** actor_name, const char** attachment_name, PouchCategory category,
@@ -84,6 +84,8 @@ HOOK_DEFINE_INLINE(OnConsumeMaterial) {
             addToPouch(pouch_mgr, &material_to_add, &attachment, PouchCategory::KeyItem, 100, true, 0, false, ModifierType::None, -1, -1, -1, -1, -1, nullptr, false);
         } else if (strncmp(*item_name, "Item_Magic_06", sizeof("Item_Magic_06")) == 0) {
             addToPouch(pouch_mgr, &material_to_add, &attachment, PouchCategory::KeyItem, 200, true, 0, false, ModifierType::None, -1, -1, -1, -1, -1, nullptr, false);
+        } else if (strncmp(*item_name, "Item_Magic_08", sizeof("Item_Magic_08")) == 0) {
+            addToPouch(pouch_mgr, &material_to_add, &attachment, PouchCategory::KeyItem, 400, true, 0, false, ModifierType::None, -1, -1, -1, -1, -1, nullptr, false);
         }
         pouch_mgr->mCurrentTab = PouchTab::Material;
     }
